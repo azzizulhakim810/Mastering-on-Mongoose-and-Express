@@ -18,7 +18,7 @@ server.on("request", (req, res) => {
     });
 
     readableStream.on("end", () => {
-      res.end("Hello from world!");
+      res.end("Hello from stream world!");
     });
   }
 });

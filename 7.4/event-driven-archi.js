@@ -1,9 +1,10 @@
+// Built in module
 const EventEmitter = require("events");
 
+// Create an instance
 const myEmitter = new EventEmitter();
 
-// Listener
-
+// Listener - They are on, means they're listening.....
 myEmitter.on("birthday", () => {
   console.log("Happy Birthday To You");
 });

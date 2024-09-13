@@ -54,17 +54,16 @@ app.get(
 
     // Catch error by try-catch block
     try {
-      // Intentionally occured error
-      res.send(something);
+      res.send(something); // Intentionally occured error
     } catch (error) {
       console.log(error);
-      // Either this way
+      // Either this way to catch & show the error
       // res.status(400).json({
       //   success: false,
       //   message: "Failed to get data",
       // });
 
-      // Or this way
+      // Or to pass the error to the Global Error Handler
       next(error);
     }
   }

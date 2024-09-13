@@ -85,7 +85,7 @@ app.post("/", logger, (req: Request, res: Response) => {
   console.log(req.body);
   // res.send("Got Data");
 
-  // We can use res.json to send some json data as response
+  // We can use res.json to send json data as response to server
   res.json({
     message: "Successfully received data",
   });

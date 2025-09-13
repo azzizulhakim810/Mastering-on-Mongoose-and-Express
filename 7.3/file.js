@@ -6,11 +6,14 @@ const fs = require("fs");
 // Reading a file text
 const readText = fs.readFileSync("./texts/read.txt", "utf-8");
 
+// console.log(readText);
+
 // Then
 // Writing a text
 const writtenText = fs.writeFileSync(
-  "./texts/written.txt",
-  readText + "The is the written text"
+  "./texts/newlyAdded",
+  readText +
+    "Newly Added Newly Added Newly Added Newly Added Newly Added Newly Added"
 );
 
 console.log(writtenText);

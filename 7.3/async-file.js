@@ -6,12 +6,12 @@ fs.readFile("./texts/read.txt", "utf-8", (err, data) => {
   if (err) {
     throw Error("Error in reading text");
   }
-  // console.log(data);
+  console.log(data);
 
   // Writing text asynchronously
 
   fs.writeFile(
-    "./texts/written2.txt",
+    "./texts/newlyAdded2.txt",
     data + "This is the new data added",
     "utf-8",
     (err) => {

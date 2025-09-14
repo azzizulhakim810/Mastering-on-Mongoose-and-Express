@@ -9,6 +9,7 @@ app.use(express.text()); // Parse Raw Text
 // Middleware
 const logger = (req: Request, res: Response, next: NextFunction) => {
   console.log(req.url, req.method, req.hostname);
+  next();
 };
 
 // Router
@@ -42,9 +43,25 @@ courseRouter.post("/create-course", (req: Request, res: Response) => {
   });
 });
 
-app.get("/", logger, (req: Request, res: Response) => {
-  res.send("Hello World from Bangladesh!");
-});
+app.get(
+  "/",
+  logger,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      res.send(hey);
+    } catch (error) {
+      // console.log(error);
+
+      // res.status(400).json({
+      //   success: false,
+      //   message: "Data not found",
+      // });
+
+      // Refer the error to Global Error Handler
+      next(error);
+    }
+  }
+);
 
 app.post("/", (req: Request, res: Response) => {
   console.log(req.body);
@@ -52,6 +69,32 @@ app.post("/", (req: Request, res: Response) => {
   res.json({
     message: "Successfully Received Data",
   });
+});
+
+// Route Error Handler
+// This * doesn't support
+// app.all("*", (req: Request, res: Response) => {
+//   res.status(400).json({
+//     success: false,
+//     message: "Route isn't found",
+//   });
+// });
+
+app.use((req: Request, res: Response) => {
+  res.status(400).json({
+    success: false,
+    message: "Route isn't found",
+  });
+});
+
+// Global Error Handler
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+  if (error) {
+    res.status(400).json({
+      success: false,
+      messsage: "Something went wrong",
+    });
+  }
 });
 
 export default app;

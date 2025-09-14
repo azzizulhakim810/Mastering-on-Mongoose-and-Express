@@ -10,7 +10,7 @@ server.on("request", (req, res) => {
     // Streaming file reading
     // const readableStream = fs.createReadStream(__dirname + "/texts/read.txt");
     const readableStream = fs.createReadStream(
-      process.cwd() + "/texts/read.txt"
+      process.cwd() + "/texts/read8.txt"
     );
 
     readableStream.on("data", (buffer) => {

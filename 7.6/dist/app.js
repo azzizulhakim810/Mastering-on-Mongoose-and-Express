@@ -9,7 +9,34 @@ const port = 3000;
 // Parser
 app.use(express_1.default.json()); // Parse Json
 app.use(express_1.default.text()); // Parse Raw Text
-app.get("/", (req, res) => {
+// Middleware
+const logger = (req, res, next) => {
+    console.log(req.url, req.method, req.hostname);
+};
+// Router
+const userRouter = express_1.default.Router(); // Creating the instance
+const courseRouter = express_1.default.Router();
+app.use("/api/v1/users", userRouter); // We must use the router
+app.use("/api/v1/courses", courseRouter);
+userRouter.post("/create-user", (req, res) => {
+    const user = req.body;
+    console.log(user);
+    res.json({
+        success: true,
+        message: "Created the user successfully",
+        user,
+    });
+});
+courseRouter.post("/create-course", (req, res) => {
+    const course = req.body;
+    console.log(course);
+    res.json({
+        success: false,
+        message: "Not Found",
+        course,
+    });
+});
+app.get("/", logger, (req, res) => {
     res.send("Hello World from Bangladesh!");
 });
 app.post("/", (req, res) => {

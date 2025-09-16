@@ -14,23 +14,27 @@ export type LocalGuardian = {
   contactNo: string;
 };
 
+export type Name = {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+};
+
+export type Address = {
+  permanentAddresss: string;
+  presentAddresss: string;
+};
+
 export type Student = {
   id: string;
-  name: {
-    firstName: string;
-    middleName: string;
-    lastName: string;
-  };
+  name: Name;
   profileImg: string;
   isActive: 'active' | 'inActive';
   gender: 'male' | 'female';
   dateOfBirth: string;
   email?: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'O+' | 'O-' | 'AB+' | 'AB-';
-  address: {
-    permanentAddresss: string;
-    presentAddresss: string;
-  };
+  address: Address;
   guardians: Guardian;
   localGuardian: LocalGuardian;
 };

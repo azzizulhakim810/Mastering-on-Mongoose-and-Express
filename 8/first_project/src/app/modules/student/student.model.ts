@@ -5,7 +5,6 @@ import {
   LocalGuardian,
   Name,
   Student,
-  Student,
 } from './student.interface';
 
 const nameSchema = new Schema<Name>({
@@ -42,6 +41,7 @@ const studentSchema = new Schema<Student>({
   isActive: ['active', 'inActive'],
   gender: ['male', 'female'],
   dateOfBirth: { type: String },
+  emergencyContactNo: { type: String },
   email: { type: String },
   bloodGroup: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'],
   address: addressSchema,
@@ -50,4 +50,4 @@ const studentSchema = new Schema<Student>({
 });
 
 // Creating model<type>(name, schema)
-const Student = model<Student>('Student', studentSchema);
+export const StudentModel = model<Student>('Student', studentSchema);

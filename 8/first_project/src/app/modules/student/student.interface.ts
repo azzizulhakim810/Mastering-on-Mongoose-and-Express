@@ -32,6 +32,7 @@ export type Student = {
   isActive: 'active' | 'inActive';
   gender: 'male' | 'female';
   dateOfBirth: string;
+  emergencyContactNo: string;
   email?: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'O+' | 'O-' | 'AB+' | 'AB-';
   address: Address;

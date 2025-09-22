@@ -8,9 +8,9 @@ import {
 } from './student.interface';
 
 const nameSchema = new Schema<Name>({
-  firstName: { type: String, required: true },
-  middleName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  firstName: { type: String, required: [true, 'First Name is required'] }, // Custom message in the validation
+  middleName: { type: String, required: [true, 'Middle Name is required'] },
+  lastName: { type: String, required: [true, 'Last Name is required'] },
 });
 
 const addressSchema = new Schema<Address>({
@@ -35,18 +35,47 @@ const localGuardianSchema = new Schema<LocalGuardian>({
 });
 
 const studentSchema = new Schema<Student>({
-  id: { type: String },
-  name: nameSchema,
+  id: { type: String, required: true, unique: true },
+  name: {
+    type: nameSchema,
+    required: [true, 'Name is required'],
+  },
   profileImg: { type: String },
-  isActive: ['active', 'inActive'],
-  gender: ['male', 'female'],
+  isActive: {
+    type: String,
+    enum: ['active', 'inActive'],
+    default: 'active',
+  },
+  gender: {
+    type: String,
+    enum: {
+      values: ['male', 'female', 'other'],
+      message: 'Gender can be male | female | other',
+    },
+    required: true,
+  },
   dateOfBirth: { type: String },
   emergencyContactNo: { type: String },
-  email: { type: String },
-  bloodGroup: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'],
-  address: addressSchema,
-  guardians: guardiansSchema,
-  localGuardian: localGuardianSchema,
+  email: { type: String, required: true, unique: true },
+  bloodGroup: {
+    type: String,
+    enum: {
+      values: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'],
+      message: '{VALUE} is not defined', // We can show the user input using {VALUE}
+    },
+  },
+  address: {
+    type: addressSchema,
+    required: true,
+  },
+  guardians: {
+    type: guardiansSchema,
+    required: true,
+  },
+  localGuardian: {
+    type: localGuardianSchema,
+    required: true,
+  },
 });
 
 // Creating model<type>(name, schema)

@@ -8,8 +8,21 @@ import {
 } from './student.interface';
 
 const nameSchema = new Schema<Name>({
-  firstName: { type: String, required: [true, 'First Name is required'] }, // Custom message in the validation
-  middleName: { type: String, required: [true, 'Middle Name is required'] },
+  firstName: {
+    type: String,
+    required: [true, 'First Name is required'],
+    trim: true, // Trim usual Spaces <"    Azzizul   "> ---> <"Azzizul">
+    maxlength: [20, "First Name can't be more than 10 Characters"], // Custom message in the validation
+    validate: {
+      validator: function (value: string) {
+        const firstNameStr =
+          value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        return firstNameStr === value;
+      },
+      message: '{VALUE} is not an accepted format',
+    },
+  },
+  middleName: { type: String },
   lastName: { type: String, required: [true, 'Last Name is required'] },
 });
 

@@ -16,7 +16,7 @@ export type LocalGuardian = {
 
 export type Name = {
   firstName: string;
-  middleName: string;
+  middleName?: string;
   lastName: string;
 };
 

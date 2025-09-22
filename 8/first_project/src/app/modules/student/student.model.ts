@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+import validator from 'validator';
 import {
   Address,
   Guardian,
@@ -14,6 +15,7 @@ const nameSchema = new Schema<Name>({
     trim: true, // Trim usual Spaces <"    Azzizul   "> ---> <"Azzizul">
     maxlength: [20, "First Name can't be more than 10 Characters"], // Custom message in the validation
     validate: {
+      // Custom Validator
       validator: function (value: string) {
         const firstNameStr =
           value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
@@ -23,7 +25,14 @@ const nameSchema = new Schema<Name>({
     },
   },
   middleName: { type: String },
-  lastName: { type: String, required: [true, 'Last Name is required'] },
+  lastName: {
+    type: String,
+    required: [true, 'Last Name is required'],
+    validate: {
+      validator: (value: string) => validator.isAlpha(value),
+      message: '{VALUE} is not accepted',
+    },
+  },
 });
 
 const addressSchema = new Schema<Address>({
@@ -69,7 +78,16 @@ const studentSchema = new Schema<Student>({
   },
   dateOfBirth: { type: String },
   emergencyContactNo: { type: String },
-  email: { type: String, required: true, unique: true },
+  // Validation using "Validator" Library
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: (value: string) => validator.isEmail(value),
+      message: '{VALUE} is not valid email type',
+    },
+  },
   bloodGroup: {
     type: String,
     enum: {

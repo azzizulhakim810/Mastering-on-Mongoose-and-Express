@@ -1,9 +1,20 @@
 import { Request, Response } from 'express';
 import { StudentServices } from './student.service';
+import Joi from 'joi';
 
 // Insert
 const createStudent = async (req: Request, res: Response) => {
   try {
+    const JoiValidation = Joi.object({
+      id: Joi.string(),
+      name: {
+        firstName: Joi.string().alphanum().max(20).required(),
+        middleName: Joi.string(),
+        lastName: Joi.string().alphanum().max(20).required(),
+      },
+      gender: Joi.string().required().valid(['male', 'female', 'other']),
+    });
+
     const student = req.body;
 
     const result = await StudentServices.createStudentIntoDB(student);

@@ -42,10 +42,13 @@ export type TStudent = {
   localGuardian: TLocalGuardian;
 };
 
+// Method type declearation
 export type StudentMethod = {
-  isUserExists(id: string): Promise<TStudent | null>;
+  // the function
+  isUserExists(id: string): Promise<TStudent | null>; // either return TStudent type or null
 };
 
+// Model declearation
 export type StudentModel = Model<
   TStudent,
   Record<string, never>,

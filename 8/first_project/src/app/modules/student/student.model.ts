@@ -60,6 +60,7 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
   contactNo: { type: String, required: true },
 });
 
+// Added the custom model & method inside schema
 const studentSchema = new Schema<TStudent, StudentModel, StudentMethod>({
   id: { type: String, required: true, unique: true },
   name: {
@@ -113,6 +114,7 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethod>({
   },
 });
 
+// Using the method
 studentSchema.methods.isUserExists = async function (id: string) {
   const existingUser = await Student.findOne({ id });
 

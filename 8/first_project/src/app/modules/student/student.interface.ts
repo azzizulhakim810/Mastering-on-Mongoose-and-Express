@@ -28,11 +28,11 @@ export type Address = {
 export type Student = {
   id: string;
   name: Name;
-  profileImg: string;
+  profileImg?: string;
   isActive: 'active' | 'inActive';
-  gender: 'male' | 'female';
-  dateOfBirth: string;
-  emergencyContactNo: string;
+  gender: 'male' | 'female' | 'other';
+  dateOfBirth?: string;
+  emergencyContactNo?: string;
   email: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'O+' | 'O-' | 'AB+' | 'AB-';
   address: Address;

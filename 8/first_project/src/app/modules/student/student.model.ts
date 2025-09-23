@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import validator from 'validator';
+// import validator from 'validator';
 import {
   Address,
   Guardian,
@@ -14,24 +14,26 @@ const nameSchema = new Schema<Name>({
     required: [true, 'First Name is required'],
     trim: true, // Trim usual Spaces <"    Azzizul   "> ---> <"Azzizul">
     maxlength: [20, "First Name can't be more than 10 Characters"], // Custom message in the validation
-    validate: {
-      // Custom Validator
-      validator: function (value: string) {
-        const firstNameStr =
-          value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-        return firstNameStr === value;
-      },
-      message: '{VALUE} is not an accepted format',
-    },
+
+    // using Validator Js to custom validate
+    // validate: {
+    //   // Custom Validator
+    //   validator: function (value: string) {
+    //     const firstNameStr =
+    //       value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    //     return firstNameStr === value;
+    //   },
+    //   message: '{VALUE} is not an accepted format',
+    // },
   },
   middleName: { type: String },
   lastName: {
     type: String,
     required: [true, 'Last Name is required'],
-    validate: {
-      validator: (value: string) => validator.isAlpha(value),
-      message: '{VALUE} is not accepted',
-    },
+    // validate: {
+    //   validator: (value: string) => validator.isAlpha(value),
+    //   message: '{VALUE} is not accepted',
+    // },
   },
 });
 
@@ -83,10 +85,10 @@ const studentSchema = new Schema<Student>({
     type: String,
     required: true,
     unique: true,
-    validate: {
-      validator: (value: string) => validator.isEmail(value),
-      message: '{VALUE} is not valid email type',
-    },
+    // validate: {
+    //   validator: (value: string) => validator.isEmail(value),
+    //   message: '{VALUE} is not valid email type',
+    // },
   },
   bloodGroup: {
     type: String,

@@ -51,10 +51,16 @@ const deleteSingleStudentFromDB = async (id: number | string) => {
   const result = await Student.updateOne({ id }, { isDeleted: true });
   return result;
 };
+// update a single student
+const updateSingleStudentFromDB = async (id: number | string) => {
+  const result = await Student.updateOne({ id }, { isActive: 'inActive' });
+  return result;
+};
 
 export const StudentServices = {
   createStudentIntoDB,
   getAllStudentsFromDB,
   getSingleStudentFromDB,
   deleteSingleStudentFromDB,
+  updateSingleStudentFromDB,
 };

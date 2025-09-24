@@ -65,66 +65,78 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 });
 
 // Added the custom model & method inside schema | Static only requires Model not method
-const studentSchema = new Schema<TStudent, StudentModel>({
-  id: { type: String, required: [true, 'ID is required'], unique: true },
-  password: {
-    type: String,
-    required: [true, 'Password is required'],
-    maxLength: [20, 'Password should be within 20 Characters'],
-  },
-  name: {
-    type: nameSchema,
-    required: [true, 'Name is required'],
-  },
-  profileImg: { type: String },
-  isActive: {
-    type: String,
-    enum: ['active', 'inActive'],
-    default: 'active',
-  },
-  gender: {
-    type: String,
-    enum: {
-      values: ['male', 'female', 'other'],
-      message: 'Gender can be male | female | other',
+const studentSchema = new Schema<TStudent, StudentModel>(
+  {
+    id: { type: String, required: [true, 'ID is required'], unique: true },
+    password: {
+      type: String,
+      required: [true, 'Password is required'],
+      maxLength: [20, 'Password should be within 20 Characters'],
     },
-    required: true,
-  },
-  dateOfBirth: { type: String },
-  emergencyContactNo: { type: String },
-  // Validation using "Validator" Library
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    // validate: {
-    //   validator: (value: string) => validator.isEmail(value),
-    //   message: '{VALUE} is not valid email type',
-    // },
-  },
-  bloodGroup: {
-    type: String,
-    enum: {
-      values: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'],
-      message: '{VALUE} is not defined', // We can show the user input using {VALUE}
+    name: {
+      type: nameSchema,
+      required: [true, 'Name is required'],
+    },
+    profileImg: { type: String },
+    isActive: {
+      type: String,
+      enum: ['active', 'inActive'],
+      default: 'active',
+    },
+    gender: {
+      type: String,
+      enum: {
+        values: ['male', 'female', 'other'],
+        message: 'Gender can be male | female | other',
+      },
+      required: true,
+    },
+    dateOfBirth: { type: String },
+    emergencyContactNo: { type: String },
+    // Validation using "Validator" Library
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      // validate: {
+      //   validator: (value: string) => validator.isEmail(value),
+      //   message: '{VALUE} is not valid email type',
+      // },
+    },
+    bloodGroup: {
+      type: String,
+      enum: {
+        values: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'],
+        message: '{VALUE} is not defined', // We can show the user input using {VALUE}
+      },
+    },
+    address: {
+      type: addressSchema,
+      required: true,
+    },
+    guardians: {
+      type: guardiansSchema,
+      required: true,
+    },
+    localGuardian: {
+      type: localGuardianSchema,
+      required: true,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
     },
   },
-  address: {
-    type: addressSchema,
-    required: true,
+  {
+    toJSON: {
+      virtuals: true,
+    },
   },
-  guardians: {
-    type: guardiansSchema,
-    required: true,
-  },
-  localGuardian: {
-    type: localGuardianSchema,
-    required: true,
-  },
-  isDeleted: {
-    type: Boolean,
-    default: false,
-  },
+);
+
+// Mongoose Virtual
+studentSchema.virtual('fullName').get(function () {
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
 });
 
 // Using Query Middleware <While running any query like find or delete >

@@ -41,6 +41,7 @@ export type TStudent = {
   address: TAddress;
   guardians: TGuardian;
   localGuardian: TLocalGuardian;
+  isDeleted: boolean;
 };
 
 // Static creation

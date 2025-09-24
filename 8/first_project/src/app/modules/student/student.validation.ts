@@ -58,6 +58,7 @@ export const studentZodValidationSchema = z.object({
   address: addressZodValidationSchema,
   guardians: guardiansZodValidationSchema,
   localGuardian: localGuardianZodValidationSchema,
+  isDeleted: z.boolean(),
 });
 
 export default studentZodValidationSchema;

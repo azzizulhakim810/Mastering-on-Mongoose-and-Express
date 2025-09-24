@@ -12,6 +12,7 @@ import {
 
 import bcrypt from 'bcrypt';
 import config from '../../config';
+import { boolean } from 'joi';
 
 const nameSchema = new Schema<TName>({
   firstName: {
@@ -120,9 +121,31 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     type: localGuardianSchema,
     required: true,
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-// Using Middleware
+// Using Query Middleware <While running any query like find or delete >
+studentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({
+    $match: { isDeleted: { $ne: true } },
+  });
+  next();
+});
+
+// Using Document Middleware Pre & Post <While Saving or Removing Any Document>
 studentSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;

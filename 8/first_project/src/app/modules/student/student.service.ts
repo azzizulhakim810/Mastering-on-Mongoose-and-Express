@@ -30,8 +30,25 @@ const getAllStudentsFromDB = async () => {
   return result;
 };
 
+// Retrieve a single student ----- Using findOne()
+// const getSingleStudentFromDB = async (id: number | string) => {
+//   const result = await Student.findOne({ id });
+//   return result;
+// };
+
+// Retrieve a single student ----- Using aggregation([])
 const getSingleStudentFromDB = async (id: number | string) => {
-  const result = await Student.findOne({ id });
+  const result = await Student.aggregate([
+    {
+      $match: { id: id },
+    },
+  ]);
+  return result;
+};
+
+// Delete(update) a single student
+const deleteSingleStudentFromDB = async (id: number | string) => {
+  const result = await Student.updateOne({ id }, { isDeleted: true });
   return result;
 };
 
@@ -39,4 +56,5 @@ export const StudentServices = {
   createStudentIntoDB,
   getAllStudentsFromDB,
   getSingleStudentFromDB,
+  deleteSingleStudentFromDB,
 };

@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
 // import validator from 'validator';
 import {
-  StudentMethods,
+  // StudentMethods,
   StudentModel,
   TAddress,
   TGuardian,
@@ -9,6 +9,9 @@ import {
   TName,
   TStudent,
 } from './student.interface';
+
+import bcrypt from 'bcrypt';
+import config from '../../config';
 
 const nameSchema = new Schema<TName>({
   firstName: {
@@ -62,7 +65,13 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 
 // Added the custom model & method inside schema | Static only requires Model not method
 const studentSchema = new Schema<TStudent, StudentModel>({
-  id: { type: String, required: true, unique: true },
+  id: { type: String, required: [true, 'ID is required'], unique: true },
+  password: {
+    type: String,
+    required: [true, 'Password is required'],
+    unique: true,
+    maxLength: [20, 'Password should be within 20 Characters'],
+  },
   name: {
     type: nameSchema,
     required: [true, 'Name is required'],
@@ -112,6 +121,25 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     type: localGuardianSchema,
     required: true,
   },
+});
+
+// Using Middleware
+studentSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+
+  // Hashing the password
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  console.log(this, 'Before saving the Data');
+
+  next();
+});
+
+studentSchema.post('save', function () {
+  console.log(this, 'After saved the Data');
 });
 
 // Using the static method

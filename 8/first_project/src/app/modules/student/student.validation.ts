@@ -41,6 +41,7 @@ export const localGuardianZodValidationSchema = z.object({
 // ---------- Student Schema ----------
 export const studentZodValidationSchema = z.object({
   id: z.string().nonempty('Student ID is required'),
+  password: z.string().max(20).nonempty('Password is required'),
   name: nameZodValidationSchema,
   profileImg: z.url().optional(),
   isActive: z.enum(['active', 'inActive']).default('active'),

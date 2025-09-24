@@ -29,6 +29,7 @@ export type TAddress = {
 
 export type TStudent = {
   id: string;
+  password: string;
   name: TName;
   profileImg?: string;
   isActive: 'active' | 'inActive';

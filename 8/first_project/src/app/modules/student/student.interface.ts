@@ -42,15 +42,21 @@ export type TStudent = {
   localGuardian: TLocalGuardian;
 };
 
-// Method type declearation
-export type StudentMethod = {
-  // the function
-  isUserExists(id: string): Promise<TStudent | null>; // either return TStudent type or null
-};
+// Static creation
+export interface StudentModel extends Model<TStudent> {
+  isUserExists(id: string): Promise<TStudent | null>;
+}
 
-// Model declearation
-export type StudentModel = Model<
-  TStudent,
-  Record<string, never>,
-  StudentMethod
->;
+// // Instance creation
+// // Method type declearation
+// export type StudentMethods = {
+//   // the function
+//   isUserExists(id: string): Promise<TStudent | null>; // either return TStudent type or null
+// };
+
+// // Model declearation
+// export type StudentModel = Model<
+//   TStudent,
+//   Record<string, never>,
+//   StudentMethods
+// >;
